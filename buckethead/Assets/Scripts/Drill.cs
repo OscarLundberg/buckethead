@@ -35,8 +35,10 @@ public class Drill : MonoBehaviour
     var rayCastHit = Physics2D.Raycast(transform.position, dir, range, lm);
     if (rayCastHit)
     {
+      if(isDrill){
         Debug.DrawRay(transform.position, dir, Color.blue);
-      Destroy(rayCastHit.transform.gameObject);
+        Destroy(rayCastHit.transform.gameObject);
+      }
     }
   }
 
