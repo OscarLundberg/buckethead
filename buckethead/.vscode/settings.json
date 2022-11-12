@@ -53,4 +53,5 @@
         "Temp/":true
     },
     "prettier.tabWidth": 4,
+    "editor.codeLens": false
 }

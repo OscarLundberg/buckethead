@@ -8,48 +8,109 @@ using Cysharp.Threading.Tasks;
 
 public class Tile : MonoBehaviour
 {
-  public bool isWater;
-  [Range(0, 10)]
-  public float threshold = 1.1;
+  private bool isWater;
+  private float threshold = 1.1f;
+  private List<Matter> segments;
+  public Matter fill;
+  public List<SpriteRenderer> sprites;
 
-  public SpriteRenderer sr;
-  // Start is called before the first frame update
   void Start()
   {
-    this.sr = GetComponent<SpriteRenderer>();
-  }
-
-  // Update is called once per frame
-  async void Tick()
-  {
-    await UniTask.Delay(TimeSpan.FromSeconds(0.2), ignoreTimeScale: false);
-    if (isWater)
+    this.segments = new List<Matter>();
+    for (int i = 0; i < MatterConfig.MaxSegments; i++)
     {
-      this.sr.color = Color.blue;
-      PropagateWater().Forget();
+      segments.Add(this.fill);
     }
     Tick().Forget();
   }
 
-  async UniTaskVoid PropagateWater()
+  bool hasGaps()
   {
+    return this.segments.Any(MatterConfig.isBackground) && this.segments.Any(MatterConfig.isLiquid);
+  }
 
-    var waters = FindNeighbourWater();
-    foreach (var water in waters)
+  bool hasLiquid()
+  {
+    return this.segments.Any(MatterConfig.isLiquid);
+  }
+
+  ///<summary>
+  /// if a neighbour can offload liquid to this tile 
+  /// </summary>
+  bool acceptsLiquid(int? incomingSegment = null)
+  {
+    if (incomingSegment == null) { incomingSegment = MatterConfig.MaxSegments - 1; }
+
+    for (int i = (int)incomingSegment; i >= 0; i--)
     {
-      water.threshold = threshold;
-      water.isWater = true;
-      water.sr.color = Color.blue;
+      if (MatterConfig.isLiquid(segments[i]))
+      {
+        return true;
+      }
     }
+    return false;
+  }
+
+  async UniTaskVoid Tick()
+  {
+    await UniTask.Delay(TimeSpan.FromSeconds(MatterConfig.TickDuration), ignoreTimeScale: false);
+    if (this.hasLiquid())
+    {
+      PropagateLiquid();
+    }
+    Tick().Forget();
+  }
+
+  async UniTaskVoid PropagateLiquid()
+  {
+    // Settle own liquid (if there are gaps)
+    if (hasGaps())
+    {
+      // move ALL liquid segments down if they will not overlap a rigid segment (Rigid segment above liquid: UNSUPPORTE)
+      // var liqSeg = getLiquidSegments()
+      // for(var segObj of liqSeg){
+      //    // seg: { ind: number, val: matter }
+      //    // if(MatterConfig.isBackground(this.segments[ind + 1])){
+      //          propaagate to target
+      //          segments[ind+1] = val
+      //       }
+      // }
+    }
+    /// check gravity 
+    /// (liquid should always drop to gorund level before propagating horizontally)
+    var under = FindGravityNeighbour();
+    if (!under.acceptsLiquid())
+    {
+
+    }
+
+    // handle horizontal offloading
+    // if anyNeighboursCanHandleIt
+    // target = randomize direction from given
+    // push liquid segment to target
   }
 
 
-
-  List<Tile> FindNeighbourWater()
+  private List<Tile> _neighbours;
+  List<Tile> neighbours
   {
-    var waters = GameObject.FindGameObjectsWithTag("WATER").Select(e => e.GetComponent<WaterTile>());
-    if (waters != null)
-      return waters.Where(e => Vector3.Distance(e.transform.position, transform.position) < threshold)?.ToList();
+    get => this._neighbours ?? FindNeighbours();
+  }
+
+  Tile FindGravityNeighbour()
+  {
+    return neighbours.First(e => e.transform.position.y < transform.position.y);
+  }
+
+  List<Tile> FindNeighbours()
+  {
+    var tiles = GameObject.FindObjectsOfType<Tile>();
+    if (tiles != null)
+    {
+      var neighbours = tiles.Where(e => Vector3.Distance(e.transform.position, transform.position) < threshold)?.ToList();
+      this._neighbours = neighbours;
+      return neighbours;
+    }
     return new List<Tile>();
   }
 }
