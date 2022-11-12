@@ -9,7 +9,7 @@ public class Drill : MonoBehaviour
     {  
         Debug.Log(isDrill);
         var player = other.collider.GetComponent<PlayerMovement>();
-        if ((player != null && (other.contacts[0].normal.x < 0)) && isDrill)
+        if ((player != null && (other.transform.position.x < player.transform.position.x)) && isDrill)
         {
             Debug.Log("Drilling");
             if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.A))
@@ -17,7 +17,7 @@ public class Drill : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        if (player != null && (other.contacts[0].normal.x > 0) && isDrill)
+        if (player != null && (other.transform.position.x > player.transform.position.x) && isDrill)
         {
             Debug.Log("Drilling");
             if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.D))
@@ -25,14 +25,14 @@ public class Drill : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        if (player != null && (other.contacts[0].normal.y < 0) && isDrill)
+        if (player != null && (other.transform.position.y < player.transform.position.y) && isDrill)
         {
             if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.S))
             {   
                 Destroy(gameObject);
             }
         }
-        if (player != null && (other.contacts[0].normal.y > 0) && isDrill)
+        if (player != null && (other.transform.position.y > player.transform.position.y) && isDrill)
         {
             if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
             {   
