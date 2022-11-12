@@ -7,36 +7,35 @@ public class Drill : MonoBehaviour
     public bool isDrill = true;
     private void OnCollisionStay2D(Collision2D other)
     {  
-        Debug.Log(isDrill);
-        var player = other.collider.GetComponent<PlayerMovement>();
-        if ((player != null && (other.transform.position.x < player.transform.position.x)) && isDrill)
+        var isBlock = other.transform.tag == "ground";
+        if ((isBlock && (other.transform.position.x < transform.position.x)) && isDrill)
         {
             Debug.Log("Drilling");
             if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.A))
             {   
-                Destroy(gameObject);
+                Destroy(other.gameObject);
             }
         }
-        if (player != null && (other.transform.position.x > player.transform.position.x) && isDrill)
+        if (isBlock && (other.transform.position.x > transform.position.x) && isDrill)
         {
             Debug.Log("Drilling");
             if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.D))
             {   
-                Destroy(gameObject);
+                Destroy(other.gameObject);
             }
         }
-        if (player != null && (other.transform.position.y < player.transform.position.y) && isDrill)
+        if (isBlock && (other.transform.position.y < transform.position.y) && isDrill)
         {
             if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.S))
             {   
-                Destroy(gameObject);
+                Destroy(other.gameObject);
             }
         }
-        if (player != null && (other.transform.position.y > player.transform.position.y) && isDrill)
+        if (isBlock  && (other.transform.position.y > transform.position.y) && isDrill)
         {
             if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
             {   
-                Destroy(gameObject);
+                Destroy(other.gameObject);
             }
         }
     }
