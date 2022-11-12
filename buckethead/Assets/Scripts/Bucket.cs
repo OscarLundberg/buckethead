@@ -15,7 +15,7 @@ public class Bucket : MonoBehaviour
             if(!isFull)
             {
                 isFull = true;       // set bucket to full  
-                Destroy(gameObject); // remove the water from the ground
+                Destroy(other.gameObject); // remove the water from the ground
             }
 
             
