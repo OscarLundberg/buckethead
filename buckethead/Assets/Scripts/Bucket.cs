@@ -8,6 +8,7 @@ public class Bucket : MonoBehaviour
     public bool isFull;
     public int capacity = 20;
     public int current = 0;
+    public Sprite fullBucket;
     private void OnCollisionStay2D(Collision2D other)
     {
         var isWater = other.transform.tag == "water";
@@ -17,8 +18,10 @@ public class Bucket : MonoBehaviour
             if(current < capacity)
             {
                 current++;
-                if(current >= capacity)
+                if(current >= capacity){
                     isFull = true;       // set bucket to full  
+                    GetComponent<SpriteRenderer>().sprite = fullBucket;
+                }
                     
                 Destroy(other.gameObject); // remove the water from the ground
             }
