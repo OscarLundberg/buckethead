@@ -48,9 +48,20 @@ public class PlaySound : MonoBehaviour
     }
 
     // Playing idle drilling sound.
-    public void DrillIdle()
+    public void DrillIdlePlay()
+    {
+        if (!drillIdle.isPlaying)
+        {
+            Debug.Log("Character is a drill, idle (audio)");
+            drillIdle.Play();
+        }
+    }
+
+    // Stopping idle drilling sound.
+    public void DrillIdleStop()
     {
         Debug.Log("Character is a drill, idle (audio)");
+        drillIdle.Stop();
     }
 
     // Playing active drilling sound.

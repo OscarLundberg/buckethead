@@ -10,7 +10,7 @@ public class Wizard : MonoBehaviour
     public Sprite drillSprite;
 
     public PlaySound ps;
-    
+
     public void OnTriggerEnter2D(Collider2D collider)
     {   
         
@@ -22,7 +22,6 @@ public class Wizard : MonoBehaviour
             drill.isDrill = false;
             bucket.isBucket = true;
             bucket.isFull = false;
-            ps.DrillIdle();
             // disable bucket audio?
         }
         else
@@ -31,7 +30,9 @@ public class Wizard : MonoBehaviour
             drill.isDrill = true;
             drill.GetComponent<SpriteRenderer>().sprite = drillSprite;
             bucket.isBucket = false;
-            bucket.isFull = false; 
+            bucket.isFull = false;
+
+            ps.DrillIdlePlay();
             // ps.Bu();
             // disable drill audio
         }
