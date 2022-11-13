@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Wizard : MonoBehaviour
 {   
@@ -10,6 +11,7 @@ public class Wizard : MonoBehaviour
     public Sprite drillSprite;
     public ParticleSystem pSys;
     public PlaySound ps;
+    public static int tally;
 
     public void OnTriggerEnter2D(Collider2D collider)
     {   
@@ -31,6 +33,9 @@ public class Wizard : MonoBehaviour
             drill.isDrill = true;
             drill.GetComponent<SpriteRenderer>().sprite = drillSprite;
             bucket.isBucket = false;
+            Wizard.tally += bucket.current;
+            UIManager.instance.SetScore(Wizard.tally);
+            bucket.current = 0;
             bucket.isFull = false;
 
             ps.DrillIdlePlay();
