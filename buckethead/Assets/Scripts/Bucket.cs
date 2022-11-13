@@ -10,6 +10,7 @@ public class Bucket : MonoBehaviour
     public int current = 0;
     public Sprite fullBucket;
     public PlaySound ps;
+
     private void OnCollisionStay2D(Collision2D other)
     {
         var isWater = other.transform.tag == "water";
@@ -19,7 +20,8 @@ public class Bucket : MonoBehaviour
             if(current < capacity)
             {
                 current++;
-                if(current >= capacity){
+                if(current >= capacity)
+                {
                     isFull = true;       // set bucket to full  
                     GetComponent<SpriteRenderer>().sprite = fullBucket;
                 }
