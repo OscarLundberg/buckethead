@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -18,6 +19,29 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
+        if (Math.Abs(rb.velocity.x) > 0f)
+        {
+            if (bucket.isBucket)
+            {
+                ps.MovingBucketPlay();
+            }
+            else
+            {
+                ps.MovingDrillPlay();
+            }
+        }
+
+        if (rb.velocity.x == 0f)
+        {
+            if (bucket.isBucket)
+            {
+                ps.MovingBucketStop();
+            }
+            else
+            {
+                ps.MovingDrillStop();
+            }
+        }
 
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {

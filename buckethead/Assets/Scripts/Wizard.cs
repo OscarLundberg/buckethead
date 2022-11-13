@@ -12,12 +12,17 @@ public class Wizard : MonoBehaviour
     public ParticleSystem pSys;
     public PlaySound ps;
     public static int tally;
-
+    bool firstTime = true;
     public void OnTriggerEnter2D(Collider2D collider)
     {   
-        
+        if ( firstTime && collider.transform.tag == "Player") {
+            Debug.Log("HAPPENED");
+            UIManager.instance.StartGame();
+            firstTime = false;
+        }
         if (drill.isDrill)
-        {
+        { 
+
             Debug.Log("You are now a Bucket");
             bucket.GetComponent<SpriteRenderer>();
             bucket.GetComponent<SpriteRenderer>().sprite = bucketSprite;

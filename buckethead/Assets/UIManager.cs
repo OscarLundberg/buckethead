@@ -13,13 +13,10 @@ public class UIManager : MonoBehaviour
   public int maxScore = 300;
   public GameObject game_ui;
   public GameObject menu_ui;
-  public GameObject highscore_ui;
   public TMP_Text timerText;
   public TMP_Text scoreText;
-    public string endpoint;
-  public TMP_InputField nameField;
+  public TMP_Text scoreTextMenu;
 
-  // Start is called before the first frame update
   void Start()
   {
     if (instance != null)
@@ -41,8 +38,9 @@ public class UIManager : MonoBehaviour
 
   public void LoadGame()
   {
-    menu_ui.SetActive(false);
     SceneManager.LoadScene(1);
+    menu_ui.SetActive(false);
+    game_ui.SetActive(false);
   }
   // Update is called once per frame
   public void StartGame()
@@ -54,20 +52,14 @@ public class UIManager : MonoBehaviour
 
   public void EndGame()
   {
+    SceneManager.LoadScene("Menu");
     game_ui.SetActive(false);
-    menu_ui.SetActive(false);
-    SceneManager.LoadScene(0);
-    highscore_ui.SetActive(true);
-  }
-
-  public void SubmitHighscore()
-  {
     menu_ui.SetActive(true);
+    scoreTextMenu.text = $"Du fick {score} poäng";
   }
 
-  
-
-  bool timerActive;
+ 
+  public bool timerActive;
   float timer;
   float dTime;
   float maxTime = 120;
@@ -76,10 +68,11 @@ public class UIManager : MonoBehaviour
     if (timerActive)
     {
       dTime += Time.deltaTime;
-      if (dTime >= 0.1f)
+      if (dTime >= 1f)
       {
-        timer += 0.1f;
-        timerText.text = $"{timer}";
+        timer += 1f;
+        dTime = 0;
+        timerText.text = $"{Mathf.FloorToInt(maxTime - timer)}";
       }
       if (timer >= maxTime)
       {
@@ -88,27 +81,4 @@ public class UIManager : MonoBehaviour
     }
   }
 
-    async UniTask<List<HighscoreEntry>> GetHighScoreAsync()
-    {
-        var req = new UnityWebRequest("");
-        var op = await req.SendWebRequest();
-        return JsonUtility.FromJson<List<HighscoreEntry>>(op.downloadHandler.text);
-    }
-
-    async UniTaskVoid PostHighScoreAsync()
-    {
-        string nm = "unknown";
-        if(nameField?.text != null && nameField.text.Length > 3) {
-            nm = nameField.text;
-        }
-        var req = new UnityWebRequest($"{endpoint}?name={nm}&score={score}", "POST");
-        var op = await req.SendWebRequest();
-        return;
-    }
-}
-
-
-public struct HighscoreEntry {
-    string name;
-    int score;
 }

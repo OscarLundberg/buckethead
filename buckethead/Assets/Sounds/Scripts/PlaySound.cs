@@ -53,19 +53,29 @@ public class PlaySound : MonoBehaviour
     }
 
     // Playing active drilling sound.
-    public void IsMoving()
+    public void MovingDrillPlay()
     {
-        if (drill.isDrill)                                          // Uppdaterar inte till false.
+        if (!drillActive.isPlaying)
         {
             drillActive.Play();
         }
     }
+    public void MovingDrillStop()
+    {
+        drillActive.Stop();
+    }
 
     // Playing moving bucket sound.
-    public void MovingBucket()
+    public void MovingBucketPlay()
     {
-        Debug.Log("Character is moving as a bucket (audio)");
-        movingBucket.Play();
+        if(!movingBucket.isPlaying)
+        {
+            movingBucket.Play();
+        }
+    }
+    public void MovingBucketStop()
+    {
+        movingBucket.Stop();
     }
 
     // Playing splashy water sounds.
