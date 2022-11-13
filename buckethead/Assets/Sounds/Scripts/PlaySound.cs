@@ -4,36 +4,22 @@ using UnityEngine;
 
 public class PlaySound : MonoBehaviour
 {
-    public AudioSource coin;
     public List<AudioSource> digSounds;
     public AudioSource changeChar;
     public AudioSource drillIdle;
     public AudioSource drillActive;
     public AudioSource movingBucket;
-    public AudioSource wizardAmbience;
-    public List<AudioSource> wizardCough;
+    public List<AudioSource> pickUpWater;
+    public AudioSource jumpBucketEmpty;
+    public AudioSource jumpBucketFilled;
+    public AudioSource jumpDrill;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    public Drill drill;
+    public Bucket bucket;
 
-    }
-
-    // Playing coin pickup sound at different pitches.
-    public void Coin()
-    {
-        if (!coin.isPlaying)
-        {
-            Debug.Log("Coin is picked up (audio)");
-            coin.pitch = Random.Range(0.95F, 1.05f);
-            coin.Play();
-        }
-    }
-
-    // Playing digging sound, accidentally a minecraft apple. Not sampled.
+    // Playing digging sound.
     public void Dig()
     {
-        Debug.Log("Character is digging (audio)");
         digSounds[Random.Range(0, digSounds.Count - 1)].Play();
     }
 
@@ -42,7 +28,6 @@ public class PlaySound : MonoBehaviour
     {
         if (!changeChar.isPlaying)
         {
-            Debug.Log("Character has transformed (audio)");
             changeChar.Play();
         }
     }
@@ -52,7 +37,6 @@ public class PlaySound : MonoBehaviour
     {
         if (!drillIdle.isPlaying)
         {
-            Debug.Log("Character is a drill, idle (audio)");
             drillIdle.Play();
         }
     }
@@ -60,31 +44,46 @@ public class PlaySound : MonoBehaviour
     // Stopping idle drilling sound.
     public void DrillIdleStop()
     {
-        Debug.Log("Character is a drill, idle (audio)");
         drillIdle.Stop();
     }
 
     // Playing active drilling sound.
-    public void DrillActive()
+    public void IsMoving()
     {
-        Debug.Log("Character is drilling (audio)");
+        if (drill.isDrill)
+        {
+            drillActive.Play();
+        }
     }
 
     // Playing moving bucket sound.
     public void MovingBucket()
     {
         Debug.Log("Character is moving as a bucket (audio)");
+        movingBucket.Play();
     }
 
-    // Playing wizard ambience sound.
-    public void WizardAmbience()
+    // Playing splashy water sounds.
+    public void PickUpWater()
     {
-
+        pickUpWater[Random.Range(0, pickUpWater.Count - 1)].Play();
     }
 
-    // Playing wizard coughing sound.
-    public void WizardCough()
+    // Playing jumping sounds.
+    public void Jump()
     {
-        
+
+        if (drill.isDrill)
+        {
+            jumpDrill.Play();
+        }
+        else if (bucket.isBucket && !bucket.isFull)
+        {
+            jumpBucketEmpty.Play();
+        }
+        else
+        {
+            jumpBucketFilled.Play();
+        }
     }
 }

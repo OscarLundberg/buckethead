@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpingPower = 16f;
     private bool isFacingRight = true;
 
+    public PlaySound ps;
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
@@ -18,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+            ps.Jump();
         }
 
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)

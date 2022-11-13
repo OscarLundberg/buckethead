@@ -22,7 +22,8 @@ public class Wizard : MonoBehaviour
             drill.isDrill = false;
             bucket.isBucket = true;
             bucket.isFull = false;
-            // disable bucket audio?
+
+            ps.DrillIdleStop();
         }
         else
         {
@@ -36,5 +37,7 @@ public class Wizard : MonoBehaviour
             // ps.Bu();
             // disable drill audio
         }
+
+        ps.ChangeChar();
     }
 }

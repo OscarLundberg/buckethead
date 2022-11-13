@@ -9,6 +9,7 @@ public class Bucket : MonoBehaviour
     public int capacity = 20;
     public int current = 0;
     public Sprite fullBucket;
+    public PlaySound ps;
     private void OnCollisionStay2D(Collision2D other)
     {
         var isWater = other.transform.tag == "water";
@@ -24,6 +25,7 @@ public class Bucket : MonoBehaviour
                 }
                     
                 Destroy(other.gameObject); // remove the water from the ground
+                ps.PickUpWater();
             }
 
             

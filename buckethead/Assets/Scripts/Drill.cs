@@ -7,7 +7,13 @@ public class Drill : MonoBehaviour
   public bool isDrill = true;
   public float range = 0.4f;
   public LayerMask lm;
-  private void OnCollisionStay2D(Collision2D other)
+  public PlaySound ps;
+
+    private void Start()
+    {
+
+    }
+    private void OnCollisionStay2D(Collision2D other)
   {
     if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.A))
     {
@@ -35,9 +41,12 @@ public class Drill : MonoBehaviour
     var rayCastHit = Physics2D.Raycast(transform.position, dir, range, lm);
     if (rayCastHit)
     {
-      if(isDrill){
+      if (isDrill)
+      {
         Debug.DrawRay(transform.position, dir, Color.blue);
         Destroy(rayCastHit.transform.gameObject);
+
+        ps.Dig();
       }
     }
   }
