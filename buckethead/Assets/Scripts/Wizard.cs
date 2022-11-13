@@ -8,7 +8,7 @@ public class Wizard : MonoBehaviour
     public Drill drill;
     public Sprite bucketSprite;
     public Sprite drillSprite;
-
+    public ParticleSystem pSys;
     public PlaySound ps;
 
     public void OnTriggerEnter2D(Collider2D collider)
@@ -36,6 +36,7 @@ public class Wizard : MonoBehaviour
             ps.DrillIdlePlay();
         }
 
+        pSys.Play();
         ps.ChangeChar();
     }
 }
