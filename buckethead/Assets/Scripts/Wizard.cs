@@ -34,8 +34,6 @@ public class Wizard : MonoBehaviour
             bucket.isFull = false;
 
             ps.DrillIdlePlay();
-            // ps.Bu();
-            // disable drill audio
         }
 
         ps.ChangeChar();

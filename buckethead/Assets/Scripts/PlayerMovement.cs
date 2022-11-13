@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpingPower = 16f;
     private bool isFacingRight = true;
 
+    public Drill drill;
+    public Bucket bucket;
     public PlaySound ps;
 
     [SerializeField] private Rigidbody2D rb;
@@ -20,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+            
             ps.Jump();
         }
 

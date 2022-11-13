@@ -16,6 +16,14 @@ public class PlaySound : MonoBehaviour
 
     public Drill drill;
     public Bucket bucket;
+    private bool isDrill;
+    private bool isBucket;
+
+    private void Update()
+    {
+        isDrill = drill.isDrill;
+        isBucket = bucket.isBucket;
+    }
 
     // Playing digging sound.
     public void Dig()
@@ -50,7 +58,7 @@ public class PlaySound : MonoBehaviour
     // Playing active drilling sound.
     public void IsMoving()
     {
-        if (drill.isDrill)
+        if (drill.isDrill)                                          // Uppdaterar inte till false.
         {
             drillActive.Play();
         }
@@ -72,18 +80,13 @@ public class PlaySound : MonoBehaviour
     // Playing jumping sounds.
     public void Jump()
     {
-
-        if (drill.isDrill)
-        {
-            jumpDrill.Play();
-        }
-        else if (bucket.isBucket && !bucket.isFull)
+        if (isDrill)                                                // Uppdaterar inte till false.
         {
             jumpBucketEmpty.Play();
         }
-        else
+        else if (isBucket)
         {
-            jumpBucketFilled.Play();
+            jumpBucketEmpty.Play();
         }
     }
 }
