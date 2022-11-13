@@ -82,9 +82,9 @@ public class PlaySound : MonoBehaviour
     {
         if (isDrill)                                                // Uppdaterar inte till false.
         {
-            jumpBucketEmpty.Play();
+            jumpDrill.Play();
         }
-        else if (isBucket)
+        if (isBucket)
         {
             jumpBucketEmpty.Play();
         }
